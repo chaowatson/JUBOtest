@@ -1,4 +1,8 @@
+import mongodb from "mongodb"
+
 let patients
+
+var orderId_counter = 5
 
 export default class PatientsDAO {
   static async injectDB(conn) {
@@ -18,8 +22,8 @@ export default class PatientsDAO {
     filters = null,
   } = {}) {
     let query
-    if ("Id" in filters){
-      query = { "Id": { $eq: filters["Id"] } }
+    if ("OrderId" in filters){
+      query = { "OrderId": { $eq: filters["OrderId"] } }
     }
 
     let cursor
@@ -39,6 +43,18 @@ export default class PatientsDAO {
     } catch (e) {
       console.error(`Unable to convert cursor to array, ${e}`)
       return { patientsList: []}
+    }
+  }
+
+  static async addOrder(patientId) {
+    try {
+      orderId_counter += 1
+      return await patients.updateOne(
+        { 'Id': patientId },
+        { $push: {OrderId: `${orderId_counter}`}})
+    } catch (e) {
+      console.error(`Unable to post order: ${e}`)
+      return { error: e }
     }
   }
 }
