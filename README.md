@@ -21,7 +21,7 @@ This project was built with MERN stack, including Mongodb, Express, React.js and
 ## Getting Started
 
 
-## Prerequisites
+### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
 * npm
